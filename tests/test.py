@@ -1,6 +1,8 @@
 import base64
 import threading
 import time
+
+import config
 from main import MessengerClient
 import random
 
@@ -129,4 +131,13 @@ def test_users_start_dialog_without_event():
         assert a == 'Test'
     except:
         assert True
+
+
+def test_check_signature():
+    client1 = MessengerClient('tester' + str(random.randint(1, 34534545)), '543444544333')
+    test_data = client1.signup()
+    if config.IS_PRODUCTION:
+        assert not test_data['succeeded']
+    else:
+        assert test_data['succeeded']
 
