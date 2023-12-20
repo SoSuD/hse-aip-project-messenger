@@ -9,6 +9,4 @@ clients = {
 
 access_token_lifetime = 3600
 
-
-
 IS_DEBUG = not IS_PRODUCTION

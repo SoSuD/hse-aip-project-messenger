@@ -29,7 +29,7 @@ class Event:
         return {k: v for k, v in dataclasses.asdict(self).items()}
 
 
-def validate_schema(schema: Schema): #Определение декораторов для валидации JSON и аргументов запросов.
+def validate_schema(schema: Schema):  # Определение декораторов для валидации JSON и аргументов запросов.
     """
         Декоратор для валидации входящего JSON запроса согласно заданной схеме.
 
@@ -40,6 +40,7 @@ def validate_schema(schema: Schema): #Определение декоратор�
 
         :return: function: обернутая функция, которая вводит валидацию запросов для декорируемой функции.
     """
+
     def inner_decorator(func):
         @functools.wraps(func)
         def magic(*args, **kwargs):
@@ -65,6 +66,7 @@ def validate_args(schema: Schema):
 
            :return: function:обернутая функция, которая добавляет валидацию к декорируемой функции.
        """
+
     def inner_decorator(func):
         @functools.wraps(func)
         def magic(*args, **kwargs):
@@ -80,7 +82,7 @@ def validate_args(schema: Schema):
     return inner_decorator
 
 
-def validate_signature(func):#Декоратор для проверки подписи запроса.
+def validate_signature(func):  # Декоратор для проверки подписи запроса.
     """
            Декоратор для проверки JWT токена пользователя в заголовках запроса.
 
@@ -92,6 +94,7 @@ def validate_signature(func):#Декоратор для проверки под�
 
            :return: Обёрнутая функция с проверкой токена.
        """
+
     @functools.wraps(func)
     def magic(*args, **kwargs):
         client_id = request.headers.get('X-Client-ID')
@@ -114,7 +117,7 @@ def validate_signature(func):#Декоратор для проверки под�
     return magic
 
 
-def validate_token(func): #проверка токена
+def validate_token(func):  # проверка токена
     @functools.wraps(func)
     def magic(*args, **kwargs):
         client_id = request.headers.get('X-Client-ID')
@@ -268,7 +271,7 @@ def my_public_key_get(payload, user_id: int):
                    key=public_key.serialize())
 
 
-@app.route('/api/users/<int:user_id>/sessionKey', methods=['PUT']) #сохранение в бд session key
+@app.route('/api/users/<int:user_id>/sessionKey', methods=['PUT'])  # сохранение в бд session key
 @validate_token
 # @validate_signature
 @validate_schema(SessionKeyRequest())
@@ -284,7 +287,7 @@ def users_session_key_set(data, payload, user_id: int):
     return jsonify(succeeded=True)
 
 
-@app.route('/api/users/<int:user_id>/sessionKey', methods=['GET']) #получение session key
+@app.route('/api/users/<int:user_id>/sessionKey', methods=['GET'])  # получение session key
 @validate_token
 def users_session_key_get(payload, user_id: int):
     with pool.acquire() as conn, conn.cursor() as cur:
@@ -360,7 +363,7 @@ def chats_get(data, payload):
 @validate_token
 def events(payload):
     start_time = time.time()
-    while time.time() - start_time < 25: #ожидание событий
+    while time.time() - start_time < 25:  # ожидание событий
         relation_events = []
         for event in events_stack:
             if not event.relation_user_ids:

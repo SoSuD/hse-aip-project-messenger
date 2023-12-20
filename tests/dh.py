@@ -1,5 +1,4 @@
 from Crypto.Cipher import AES
-from Crypto.Hash import SHAKE256
 from Crypto.Protocol.DH import key_agreement
 from Crypto.PublicKey import ECC
 from Crypto.Util.Padding import pad, unpad
